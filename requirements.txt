@@ -1,0 +1,13 @@
+behave==1.3.3
+certifi==2026.7.22
+charset-normalizer==3.5.2
+colorama==0.4.6
+cucumber-expressions==18.0.1
+cucumber-tag-expressions==7.0.0
+idna==3.20
+parse==1.22.4
+parse_type==0.6.6
+requests==2.32.3
+six==1.17.0
+urllib3==1.26.20
+win-unicode-console==0.5

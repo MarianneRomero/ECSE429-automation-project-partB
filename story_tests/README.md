@@ -27,8 +27,8 @@ behave                       # random order, seed printed at the start
 behave -D seed=1234          # reproduce a random order
 behave -D order=defined      # file order
 behave -D order=reverse      # reverse file order
-behave features/todos.feature
-behave --tags=@error         # only error flows (also @normal, @alternate, @todos, ...)
+behave features/todos          # only the todo stories
+behave --tags=@error         # only error flows (also @normal, @alternate, @todos, @story3, ...)
 ```
 
 Each scenario creates its own objects, deletes them afterwards, and fails if the
@@ -39,7 +39,8 @@ server is not back in the state it started in.
 | Path | Contents |
 |---|---|
 | `behave.ini` | behave settings and the default run order |
-| `features/<resource>.feature` | User stories for categories, todos and projects |
+| `features/<resource>.feature` | User stories for categories and projects |
+| `features/todos/` | One feature file per todo story (behave allows one `Feature:` per file) |
 | `features/steps/` | Step definitions: `common_steps.py` plus one module per feature |
 | `features/environment.py` | Readiness check, run order, per-scenario cleanup |
 | `features/api.py` | HTTP helpers (base URL, requests, server snapshot) |

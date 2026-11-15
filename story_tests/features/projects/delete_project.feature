@@ -1,6 +1,6 @@
 @projects @story15
 Feature: Delete a project
-  As a user I want to delete a project so that I can remove obsolete workstreams from the system.
+  As a user I want to delete a project to get a system free of obsolete workstreams.
 
   Background:
     Given the Todo Manager API is running
@@ -26,8 +26,8 @@ Feature: Delete a project
       | title   |
       | <todo1> |
       | <todo2> |
-    And the todo "<todo1>" is added to the project "ECSE429 Obsolete"
-    And the todo "<todo2>" is added to the project "ECSE429 Obsolete"
+    And the todo "<todo1>" is in the project "ECSE429 Obsolete"
+    And the todo "<todo2>" is in the project "ECSE429 Obsolete"
     When I delete the project "ECSE429 Obsolete"
     Then the response status code is 200
     And the project "ECSE429 Obsolete" does not exist
@@ -41,12 +41,13 @@ Feature: Delete a project
 
   @error
   Scenario Outline: Delete a project that does not exist
-    When I delete the project with id "<project_id>"
+    When I delete the project with id "<id>"
     Then the response status code is 404
-    And the error message contains "<message>"
+    And the error message "Could not find any instances with projects/<id>" is returned
     And the number of projects is unchanged
 
     Examples:
-      | project_id | message                                              |
-      | 999999     | Could not find any instances with projects/999999    |
-      | 123456789  | Could not find any instances with projects/123456789 |
+      | id     |
+      | 999999 |
+      | abc    |
+      | -1     |

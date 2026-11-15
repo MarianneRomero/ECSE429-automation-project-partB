@@ -1,6 +1,6 @@
 @projects @story12
 Feature: Retrieve projects
-  As a user I want to retrieve one project or a filtered list of projects so that I can review their details and status.
+  As a user I want to retrieve one project or a filtered list of projects to get an overview of their details and status.
 
   Background:
     Given the Todo Manager API is running
@@ -41,12 +41,13 @@ Feature: Retrieve projects
 
   @error
   Scenario Outline: Fetch a project that does not exist
-    When I fetch the project with id "<project_id>"
+    When I fetch the project with id "<id>"
     Then the response status code is 404
-    And the error message contains "<message>"
+    And the error message "Could not find an instance with projects/<id>" is returned
 
     Examples:
-      | project_id | message                                            |
-      | 999999     | Could not find an instance with projects/999999    |
-      | 123456789  | Could not find an instance with projects/123456789 |
-      | 0          | Could not find an instance with projects/0         |
+      | id     |
+      | 999999 |
+      | 0      |
+      | abc    |
+      | -1     |

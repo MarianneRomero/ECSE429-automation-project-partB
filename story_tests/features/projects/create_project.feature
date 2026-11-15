@@ -1,6 +1,6 @@
 @projects @story11
 Feature: Create a project
-  As a user I want to create a project so that I can group my work under a single objective.
+  As a user I want to create a project to get my work grouped under a single objective.
 
   Background:
     Given the Todo Manager API is running
@@ -50,12 +50,12 @@ Feature: Create a project
       | field   | value   |
       | <field> | <value> |
     Then the response status code is 400
-    And the error message contains "<message>"
+    And the error message "<message>" is returned
     And the number of projects is unchanged
 
     Examples:
-      | field       | value         | message                                     |
-      | description | Team planning | title : field is mandatory                  |
-      | title       |               | Failed Validation: title : can not be empty |
-      | active      | maybe         | active                                      | 
-      | id          | 99            | id                                          |
+      | field     | value | message                                                            |
+      | priority  | high  | Could not find field: priority                                     |
+      | completed | yes   | Failed Validation: completed should be BOOLEAN                     |
+      | active    | maybe | Failed Validation: active should be BOOLEAN                        |
+      | id        | 99    | Invalid Creation: Failed Validation: Not allowed to create with id |

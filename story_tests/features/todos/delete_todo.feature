@@ -26,12 +26,12 @@ Feature: Delete a todo
 
   @alternate
   Scenario Outline: Delete a todo that belongs to a project and a category
-    Given the todo "<title>" belongs to the project "ECSE429"
+    Given the todo "<title>" is in the project "ECSE429"
     And the todo "<title>" is in the category "School"
     When I delete the todo "<title>"
     Then the response status code is 200
     And the todo "<title>" does not exist
-    And the project "ECSE429" no longer includes the todo "<title>"
+    And the project "ECSE429" does not include the todo "<title>"
     And the project "ECSE429" still exists
     And the category "School" still exists
 

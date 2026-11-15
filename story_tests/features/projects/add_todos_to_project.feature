@@ -1,12 +1,12 @@
 @projects @story14
 Feature: Add todos to a project
-  As a user I want to link todos to a project so that all the work belonging to that project is tracked in one place.
+  As a user I want to link todos to a project to get all the work belonging to that project tracked in one place.
 
   Background:
     Given the Todo Manager API is running
     And a project titled "ECSE429 Project" exists
     And a project titled "ECSE429 Other Project" exists
-    And the project "ECSE429 Project" has no todos
+    And the project "ECSE429 Project" has no related todo
 
   @normal
   Scenario Outline: Add an existing todo to a project
@@ -14,7 +14,7 @@ Feature: Add todos to a project
     When I add the todo "<todo>" to the project "ECSE429 Project"
     Then the response status code is 201
     And the project "ECSE429 Project" includes the todo "<todo>"
-    And the todo "<todo>" is a task of the project "ECSE429 Project"
+    And the todo "<todo>" is in the project "ECSE429 Project"
 
     Examples:
       | todo            |
@@ -24,12 +24,12 @@ Feature: Add todos to a project
   @alternate
   Scenario Outline: Add a todo that already belongs to another project
     Given a todo titled "<todo>" exists
-    And the todo "<todo>" is added to the project "ECSE429 Other Project"
+    And the todo "<todo>" is in the project "ECSE429 Other Project"
     When I add the todo "<todo>" to the project "ECSE429 Project"
     Then the response status code is 201
     And the project "ECSE429 Project" includes the todo "<todo>"
     And the project "ECSE429 Other Project" includes the todo "<todo>"
-    And the todo "<todo>" is a task of 2 projects
+    And the todo "<todo>" is in 2 projects
 
     Examples:
       | todo         |

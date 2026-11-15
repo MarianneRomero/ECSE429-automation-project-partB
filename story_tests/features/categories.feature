@@ -61,9 +61,10 @@ Feature: Manage categories
     # Normal flow
     @normal
     Scenario Outline: View a specific category
-      When I view the category "<title>"
+      When I fetch the category "<title>"
       Then the response status code is 200
-      And the response contains the category "<title>" with description "<description>"
+      And the returned category has title "<title>"
+      And the returned category has description "<description>"
 
       Examples:
         | title         | description            |
@@ -73,9 +74,9 @@ Feature: Manage categories
     # Alternate flow
     @alternate
     Scenario Outline: Find a category in the list of all categories
-      When I view all categories
+      When I list all categories
       Then the response status code is 200
-      And the list of categories includes "<title>"
+      And the list includes the category "<title>"
 
       Examples:
         | title         |
@@ -85,7 +86,7 @@ Feature: Manage categories
     # Error flow
     @error
     Scenario Outline: View a category that does not exist
-      When I view the category with id "<id>"
+      When I fetch the category with id "<id>"
       Then the response status code is 404
       And the error message "Could not find an instance with categories/<id>" is returned
 
@@ -106,7 +107,7 @@ Feature: Manage categories
     # Normal flow: POST amends only the fields in the body.
     @normal
     Scenario Outline: Amend one field of a category
-      When I send a POST update to the category "ECSE429" with the fields
+      When I amend the category "ECSE429" with the fields
         | field   | value   |
         | <field> | <value> |
       Then the response status code is 200
@@ -121,7 +122,7 @@ Feature: Manage categories
     # Alternate flow: PUT replaces the category, so omitted fields are reset (BUG-04).
     @alternate
     Scenario Outline: Replace a category
-      When I send a PUT update to the category "ECSE429" with the fields
+      When I replace the category "ECSE429" with the fields
         | field | value   |
         | title | <title> |
       Then the response status code is 200
@@ -136,7 +137,7 @@ Feature: Manage categories
     # Error flow: PUT without a title is rejected even though Swagger calls it an amend (BUG-04).
     @error
     Scenario Outline: Update a category with invalid fields
-      When I send a <method> update to the category "ECSE429" with the fields
+      When I <operation> the category "ECSE429" with the fields
         | field   | value   |
         | <field> | <value> |
       Then the response status code is 400
@@ -145,22 +146,24 @@ Feature: Manage categories
       And the category "ECSE429" has description "Software Validation"
 
       Examples:
-        | method | field       | value    | message                                     |
-        | PUT    | description | No title | title : field is mandatory                  |
-        | PUT    | title       |          | Failed Validation: title : can not be empty |
-        | POST   | title       |          | Failed Validation: title : can not be empty |
+        | operation | field       | value    | message                                     |
+        | replace   | description | No title | title : field is mandatory                  |
+        | replace   | title       |          | Failed Validation: title : can not be empty |
+        | amend     | title       |          | Failed Validation: title : can not be empty |
 
     # Error flow
     @error
     Scenario Outline: Update a category that does not exist
-      When I send a <method> update with title "New title" to the category with id "<id>"
+      When I <operation> the category with id "<id>" with the fields
+        | field | value     |
+        | title | New title |
       Then the response status code is 404
       And the error message "<message>" is returned
 
       Examples:
-        | method | id    | message                                                   |
-        | POST   | 99999 | No such category entity instance with GUID or ID 99999 found |
-        | PUT    | 99999 | Invalid GUID for 99999 entity category                    |
+        | operation | id    | message                                                      |
+        | amend     | 99999 | No such category entity instance with GUID or ID 99999 found |
+        | replace   | 99999 | Invalid GUID for 99999 entity category                       |
 
   @delete
   Rule: Delete a category
@@ -177,7 +180,7 @@ Feature: Manage categories
     Scenario Outline: Delete a category
       When I delete the category "<title>"
       Then the response status code is 200
-      And the category "<title>" no longer exists
+      And the category "<title>" does not exist
 
       Examples:
         | title         |
@@ -191,7 +194,7 @@ Feature: Manage categories
       And the <resource> "<item>" is in the category "ECSE429"
       When I delete the category "ECSE429"
       Then the response status code is 200
-      And the category "ECSE429" no longer exists
+      And the category "ECSE429" does not exist
       And the <resource> "<item>" still exists
 
       Examples:

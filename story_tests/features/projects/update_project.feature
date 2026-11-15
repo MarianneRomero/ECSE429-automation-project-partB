@@ -1,6 +1,6 @@
 @projects @story13
 Feature: Update a project
-  As a user I want to amend or replace a project so that its description and status stay accurate as my work evolves.
+  As a user I want to amend or replace a project to get a description and status that stay accurate as my work evolves.
 
   Background:
     Given the Todo Manager API is running
@@ -45,12 +45,12 @@ Feature: Update a project
       | field   | value   |
       | <field> | <value> |
     Then the response status code is 400
-    And the error message contains "<message>"
+    And the error message "<message>" is returned
     And the project "ECSE429 Part B" is unchanged
 
     Examples:
-      | operation | field       | value   | message                                     |
-      | replace   | description | Only me | title : field is mandatory                  |
-      | replace   | title       |         | Failed Validation: title : can not be empty |
-      | amend     | completed   | done    | completed                                   |
-      | amend     | active      | 1234    | active                                      |
+      | operation | field     | value | message                                        |
+      | replace   | priority  | high  | Could not find field: priority                 |
+      | replace   | active    | maybe | Failed Validation: active should be BOOLEAN    |
+      | amend     | completed | done  | Failed Validation: completed should be BOOLEAN |
+      | amend     | active    | 1234  | Failed Validation: active should be BOOLEAN    |

@@ -6,7 +6,6 @@ from urllib.parse import urlencode
 import parse
 import requests
 from behave import given, register_type, then, when
-from behave.api.pending_step import StepNotImplementedError
 
 from story_helpers import create, fetch, field_value, missing_id, object_id, remember
 from api import BASE_URL, SINGULAR, TIMEOUT, call, items, link, not_ready_reason, related_ids, snapshot
@@ -94,6 +93,10 @@ def _related_children(parent, parent_id, child):
     return {obj["id"] for obj in items(response, child)}
 
 
+def _listed_ids(context, collection):
+    return {obj["id"] for obj in items(context.response, collection)}
+
+
 def _link(context, child, child_id, parent, parent_id):
     context.response = link(parent, parent_id, _relationship(parent, child), child_id)
 
@@ -131,7 +134,8 @@ def step_no_object_titled(context, collection, title):
 
 @given('the {collection:Resource} "{title:Text}" was already deleted')
 def step_already_deleted(context, collection, title):
-    raise StepNotImplementedError
+    response = call("DELETE", f"/{collection}/{object_id(context, collection, title)}")
+    assert response.status_code == 200, response.text
 
 
 @given('the {child:Resource} "{child_title:Text}" is in the {parent:Resource} "{parent_title:Text}"')
@@ -288,7 +292,9 @@ def step_appears_in_list_of_all(context, collection, title, listed):
 
 @then("the list contains exactly {count:d} {collection:Collection}")
 def step_list_count(context, count, collection):
-    listed = items(context.response, collection)
+    """Counts only the objects this scenario created, so data already on the server is ignored."""
+    created = {created_id for stored, created_id in context.created if stored == collection}
+    listed = [obj for obj in items(context.response, collection) if obj["id"] in created]
     assert len(listed) == count, f"expected {count} {collection}, got {len(listed)}: {listed}"
 
 
@@ -300,12 +306,16 @@ def step_every_listed_has(context, collection, field, value):
 
 @then('the list includes the {collection:Resource} "{title:Text}"')
 def step_list_includes(context, collection, title):
-    raise StepNotImplementedError
+    assert object_id(context, collection, title) in _listed_ids(context, collection), (
+        f'{SINGULAR[collection]} "{title}" is not in the list'
+    )
 
 
 @then('the list does not include the {collection:Resource} "{title:Text}"')
 def step_list_excludes(context, collection, title):
-    raise StepNotImplementedError
+    assert object_id(context, collection, title) not in _listed_ids(context, collection), (
+        f'{SINGULAR[collection]} "{title}" is in the list'
+    )
 
 
 @then('the {collection:Resource} "{title:Text}" does not exist')
@@ -358,7 +368,10 @@ def step_parent_includes_child(context, parent, parent_title, child, child_title
 
 @then('the {parent:Resource} "{parent_title:Text}" does not include the {child:Resource} "{child_title:Text}"')
 def step_parent_excludes_child(context, parent, parent_title, child, child_title):
-    raise StepNotImplementedError
+    children = _related_children(parent, object_id(context, parent, parent_title), child)
+    assert object_id(context, child, child_title) not in children, (
+        f'{SINGULAR[parent]} "{parent_title}" still includes the {SINGULAR[child]} "{child_title}"'
+    )
 
 
 @given('the {parent:Resource} "{parent_title:Text}" has no related {child:Resource}')
@@ -370,9 +383,14 @@ def step_parent_has_no_children(context, parent, parent_title, child):
 
 @then('the {child:Resource} "{child_title:Text}" is in the {parent:Resource} "{parent_title:Text}"')
 def step_child_in_parent(context, child, child_title, parent, parent_title):
-    raise StepNotImplementedError
+    """Checks the link from the child's side, e.g. /todos/:id/tasksof."""
+    parents = _related_children(child, object_id(context, child, child_title), parent)
+    assert object_id(context, parent, parent_title) in parents, (
+        f'{SINGULAR[child]} "{child_title}" is not in the {SINGULAR[parent]} "{parent_title}"'
+    )
 
 
 @then('the {child:Resource} "{child_title:Text}" is in {count:d} {parents:Collection}')
 def step_child_in_parent_count(context, child, child_title, count, parents):
-    raise StepNotImplementedError
+    linked = _related_children(child, object_id(context, child, child_title), parents)
+    assert len(linked) == count, f'{SINGULAR[child]} "{child_title}" is in {len(linked)} {parents}, expected {count}'

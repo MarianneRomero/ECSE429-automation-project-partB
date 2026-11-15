@@ -41,7 +41,7 @@ server is not back in the state it started in.
 | `behave.ini` | behave settings and the default run order |
 | `features/<resource>.feature` | User stories for categories and projects |
 | `features/todos/` | One feature file per todo story (behave allows one `Feature:` per file) |
-| `features/steps/` | Step definitions: `common_steps.py` plus one module per feature |
+| `features/steps/` | Step definitions: `common_steps.py`, shared by every feature |
 | `features/environment.py` | Readiness check, run order, per-scenario cleanup |
 | `features/api.py` | HTTP helpers (base URL, requests, server snapshot) |
 | `features/story_helpers.py` | Step helpers: create with cleanup, lookup by title, parse types |

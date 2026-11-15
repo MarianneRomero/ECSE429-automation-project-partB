@@ -43,11 +43,16 @@ def _reorder_children(context, container):
 
 
 def before_all(context):
+    # When the API is down, every scenario still runs and fails at its Background step
+    # "Given the Todo Manager API is running". Aborting here instead would make behave
+    # report the skipped features as "passed".
     reason = not_ready_reason()
-    if reason:
-        print(f"System not ready: {reason}. "
-              "Start it with: java -jar runTodoManagerRestAPI-1.5.5.jar", file=sys.stderr)
-        context._runner.abort(reason="system not ready")   # no feature runs; exit code 1
+    context.not_ready = reason and (
+        f"System not ready: {reason}. Start it with: java -jar runTodoManagerRestAPI-1.5.5.jar"
+    )
+    if context.not_ready:
+        print(context.not_ready + "\n", file=sys.stderr)
+        context.order = "defined"
         return
 
     userdata = context.config.userdata
@@ -75,13 +80,16 @@ def before_rule(context, rule):
 
 
 def before_scenario(context, scenario):
-    context.initial_state = snapshot()
+    # Without the API there is no state to snapshot; the Background step reports the failure.
+    context.initial_state = None if context.not_ready else snapshot()
     context.created = []   # (collection, id) of every object this scenario created
     context.objects = {}   # title -> (collection, id), for steps that refer to objects by title
     context.response = None
 
 
 def after_scenario(context, scenario):
+    if context.not_ready:
+        return
     # Delete in reverse so dependent objects go first.
     for collection, object_id in reversed(context.created):
         call("DELETE", f"/{collection}/{object_id}")

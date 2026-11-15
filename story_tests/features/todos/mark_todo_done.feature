@@ -13,31 +13,37 @@ Feature: Mark a todo as done
 
   @normal
   Scenario Outline: Mark an unfinished todo as done
-    When I mark the todo "<title>" as done
+    When I amend the todo "<title>" with the fields
+      | field      | value |
+      | doneStatus | true  |
     Then the response status code is 200
     And the todo "<title>" has doneStatus "true"
-    And the todo "<title>" has description "<description>"
+    And the todo "<title>" keeps its other fields unchanged
 
     Examples:
-      | title           | description      |
-      | Read chapter 4  | Software testing |
-      | Write lab notes | Lab 2            |
+      | title           |
+      | Read chapter 4  |
+      | Write lab notes |
 
   @alternate
   Scenario Outline: Reopen a finished todo, or mark it as done again
-    When I mark the todo "Submit assignment" as <state>
+    When I amend the todo "Submit assignment" with the fields
+      | field      | value        |
+      | doneStatus | <doneStatus> |
     Then the response status code is 200
     And the todo "Submit assignment" has doneStatus "<doneStatus>"
-    And the todo "Submit assignment" has description "Assignment 1"
+    And the todo "Submit assignment" keeps its other fields unchanged
 
     Examples:
-      | state    | doneStatus |
-      | not done | false      |
-      | done     | true       |
+      | doneStatus |
+      | false      |
+      | true       |
 
   @error
   Scenario Outline: Mark a todo that does not exist as done
-    When I mark the todo with id "<id>" as done
+    When I amend the todo with id "<id>" with the fields
+      | field      | value |
+      | doneStatus | true  |
     Then the response status code is 404
     And the error message "No such todo entity instance with GUID or ID <id> found" is returned
 
@@ -48,7 +54,9 @@ Feature: Mark a todo as done
 
   @error
   Scenario Outline: Set the done status to a value that is not a boolean
-    When I set the done status of the todo "Read chapter 4" to "<value>"
+    When I amend the todo "Read chapter 4" with the fields
+      | field      | value   |
+      | doneStatus | <value> |
     Then the response status code is 400
     And the error message "Failed Validation: doneStatus should be BOOLEAN" is returned
     And the todo "Read chapter 4" is unchanged

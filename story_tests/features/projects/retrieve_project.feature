@@ -14,10 +14,10 @@ Feature: Retrieve projects
   Scenario Outline: Fetch an existing project by its id
     When I fetch the project "<project>"
     Then the response status code is 200
-    And the project "<project>" has title "<project>"
-    And the project "<project>" has description "<description>"
-    And the project "<project>" has active "<active>"
-    And the project "<project>" has completed "<completed>"
+    And the returned project has title "<project>"
+    And the returned project has description "<description>"
+    And the returned project has active "<active>"
+    And the returned project has completed "<completed>"
 
     Examples:
       | project        | description    | active | completed |

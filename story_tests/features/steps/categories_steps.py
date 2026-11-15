@@ -1,22 +1,5 @@
-"""Steps for categories.feature."""
+"""Steps used only by the category features in features/categories/.
 
-from behave import when
-
-from story_helpers import create
-
-
-@when('I create a category with title "{title}" and description "{description}"')
-def step_create_category_with_description(context, title, description):
-    context.response = create(context, "categories", {"title": title, "description": description})
-
-
-@when('I create a category with title "{title}"')
-def step_create_category(context, title):
-    context.response = create(context, "categories", {"title": title})
-
-
-@when("I create a category with the fields")
-def step_create_category_with_fields(context):
-    """Table rows are | field | value |."""
-    fields = {row["field"]: row["value"] for row in context.table}
-    context.response = create(context, "categories", fields)
+Every step those features use is shared with todos and projects, so it lives in
+common_steps.py. Add category-only steps here.
+"""

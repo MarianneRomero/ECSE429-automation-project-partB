@@ -1,6 +1,7 @@
 @projects @story12
 Feature: Retrieve projects
-  As a user I want to retrieve one project or a filtered list of projects to get an overview of their details and status.
+  As a user I want to retrieve one project or a filtered list of projects 
+  to get an overview of their details and status.
 
   Background:
     Given the Todo Manager API is running

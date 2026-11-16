@@ -1,6 +1,7 @@
 @categories @story10
 Feature: Add todos and projects to a category
-  As a user I want to link todos and projects to a category to get all the related work in one place.
+  As a user I want to link todos and projects to a category 
+  to group all related work in one place.
 
   Background:
     Given the Todo Manager API is running

@@ -1,6 +1,7 @@
 @categories @story8
 Feature: Update a category
-  As a user I want to amend or replace a category to get a title and description that stay accurate as my courses change.
+  As a user I want to update a category’s title and description 
+  to keep it up to date with the work it groups.
 
   Background:
     Given the Todo Manager API is running

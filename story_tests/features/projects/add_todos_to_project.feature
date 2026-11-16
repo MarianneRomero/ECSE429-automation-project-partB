@@ -1,6 +1,7 @@
 @projects @story14
 Feature: Add todos to a project
-  As a user I want to link todos to a project to get all the work belonging to that project tracked in one place.
+  As a user I want to link todos to a project 
+  to get all the work belonging to that project tracked in one place.
 
   Background:
     Given the Todo Manager API is running

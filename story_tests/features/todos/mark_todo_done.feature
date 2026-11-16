@@ -1,7 +1,7 @@
 @todos @story3
 Feature: Mark a todo as done
-  As a student, I want to mark a todo as done or not done,
-  so that I can keep track of the work I have finished.
+  As a user I want to mark a todo as done or not done 
+  to get a record of the work I have finished. 
 
   Background:
     Given the Todo Manager API is running

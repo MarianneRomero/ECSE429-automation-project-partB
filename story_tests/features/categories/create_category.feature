@@ -1,7 +1,8 @@
 @categories @story6
 Feature: Create a category
-  As a user I want to create a category to get my todos and projects grouped by course or priority.
-
+  As a user I want to create a category 
+  to group related todos and projects.
+  
   Background:
     Given the Todo Manager API is running
     And no category titled "ECSE429" exists

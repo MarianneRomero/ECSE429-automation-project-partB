@@ -1,7 +1,7 @@
 @todos @story1
 Feature: Create a todo
-  As a student, I want to create a todo with a title, a description and a done status,
-  so that I can write down every piece of work I still have to do.
+  As a user I want to create a todo with a title, a description and a done status to keep 
+  track of my tasks.
 
   Background:
     Given the Todo Manager API is running

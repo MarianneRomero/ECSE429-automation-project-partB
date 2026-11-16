@@ -1,6 +1,7 @@
 @projects @story13
 Feature: Update a project
-  As a user I want to amend or replace a project to get a description and status that stay accurate as my work evolves.
+  As a user I want to update a project’s title, description, and status 
+  to keep it up to date as my work evolves.
 
   Background:
     Given the Todo Manager API is running

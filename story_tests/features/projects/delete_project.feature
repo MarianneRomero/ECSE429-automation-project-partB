@@ -1,6 +1,7 @@
 @projects @story15
 Feature: Delete a project
-  As a user I want to delete a project to get a system free of obsolete workstreams.
+  As a user I want to delete a project 
+  to remove obsolete workstreams from the system.
 
   Background:
     Given the Todo Manager API is running

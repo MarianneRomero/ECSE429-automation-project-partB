@@ -1,6 +1,7 @@
 @categories @story9
 Feature: Delete a category
-  As a user I want to delete a category to get rid of groupings I no longer need.
+  As a user I want to delete a category 
+  to remove groupings I no longer need from the system.
 
   Background:
     Given the Todo Manager API is running

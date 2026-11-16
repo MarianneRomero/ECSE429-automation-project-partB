@@ -1,6 +1,7 @@
 @todos @story5
 Feature: Delete a todo
-  As a student, I want to delete a todo I no longer need.
+  As a user I want to delete a todo 
+  to get a todo list that only shows work that still matters.
 
   Background:
     Given the Todo Manager API is running

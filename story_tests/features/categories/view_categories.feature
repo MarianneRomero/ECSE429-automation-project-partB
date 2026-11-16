@@ -1,7 +1,8 @@
 @categories @story7
 Feature: View categories
-  As a user I want to look up a category or list only the categories that match a filter to get a quick view of how my work is organized.
-
+  As a user I want to retrieve one category of a filtered list of categories 
+  to get a quick view of how my work is organized.
+  
   Background:
     Given the Todo Manager API is running
     And the following categories exist

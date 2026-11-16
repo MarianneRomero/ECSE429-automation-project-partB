@@ -1,7 +1,7 @@
 @todos @story4
 Feature: Edit a todo
-  As a student, I want to change the title and description of a todo,
-  so that my todo list stays accurate when my plans change.
+  As a user I want to update a todo’s title and description 
+  to keep the todo list up to date with my plans.
 
   Background:
     Given the Todo Manager API is running

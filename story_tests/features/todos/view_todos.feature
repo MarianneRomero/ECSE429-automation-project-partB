@@ -1,7 +1,7 @@
 @todos @story2
 Feature: View todos
-  As a student, I want to look up a todo or list only the todos that match a filter,
-  so that I can quickly see what is left to do.
+  As a user I want to retrieve one todo or a filtered list of todos 
+  to get a quick view of what is done and what is left to do.
 
   Background:
     Given the Todo Manager API is running

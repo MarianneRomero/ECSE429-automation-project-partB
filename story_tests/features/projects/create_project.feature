@@ -1,6 +1,7 @@
 @projects @story11
 Feature: Create a project
-  As a user I want to create a project to get my work grouped under a single objective.
+  As a user I want to create a project 
+  to get my todos grouped under a single objective.
 
   Background:
     Given the Todo Manager API is running

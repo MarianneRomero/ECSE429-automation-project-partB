@@ -39,6 +39,7 @@ Feature: Delete a project
       | Write report | Record video |
       | Old task     | Another task |
 
+  # BUG-08: DELETE gives a different "not found" message than GET, POST and PUT.
   @error
   Scenario Outline: Delete a project that does not exist
     When I delete the project with id "<id>"

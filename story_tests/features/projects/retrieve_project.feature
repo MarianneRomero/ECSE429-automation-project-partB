@@ -10,6 +10,7 @@ Feature: Retrieve projects
       | ECSE429 Part B | Story tests    | true   | false     |
       | ECSE429 Part C | Non-functional | true   | false     |
 
+  # BUG-05: GET /projects/:id returns the project inside a one-element "projects" list, not a bare project.
   @normal
   Scenario Outline: Fetch an existing project by its id
     When I fetch the project "<project>"
@@ -39,6 +40,7 @@ Feature: Retrieve projects
       | completed | true           | 1     |
       | title     | No such title  | 0     |
 
+  # BUG-08: GET gives a different "not found" message than POST, PUT and DELETE.
   @error
   Scenario Outline: Fetch a project that does not exist
     When I fetch the project with id "<id>"

@@ -39,6 +39,7 @@ Feature: Delete a category
       | Write report | Final Project |
       | Old task     | Part A        |
 
+  # BUG-08: DELETE gives a different "not found" message than GET, POST and PUT.
   @error
   Scenario Outline: Delete a category that does not exist
     When I delete the category with id "<id>"

@@ -10,6 +10,7 @@ Feature: View categories
       | ECSE321       | Software Engineering   |
       | High Priority | Due before the weekend |
 
+  # BUG-05: GET /categories/:id returns the category inside a one-element "categories" list, not a bare category.
   @normal
   Scenario Outline: Fetch a category by its id
     When I fetch the category "<title>"
@@ -36,6 +37,7 @@ Feature: View categories
       | description | Software Engineering | 1     |
       | title       | No such title        | 0     |
 
+  # BUG-08: GET gives a different "not found" message than POST, PUT and DELETE.
   @error
   Scenario Outline: Fetch a category that does not exist
     When I fetch the category with id "<id>"

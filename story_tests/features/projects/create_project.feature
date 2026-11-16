@@ -22,6 +22,7 @@ Feature: Create a project
       | Part B - Report |
       | Part B - Video  |
 
+  # BUG-09: active and completed are sent as booleans but come back as the strings "true" / "false".
   @alternate
   Scenario Outline: Create a project with a description and the optional status fields in JSON or XML
     When I create a project in "<format>" with the fields

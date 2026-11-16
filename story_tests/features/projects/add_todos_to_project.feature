@@ -36,6 +36,7 @@ Feature: Add todos to a project
       | Shared setup |
       | Final demo   |
 
+  # BUG-03: the API returns 404, but Swagger only documents 201 and 400.
   @error
   Scenario Outline: Add a todo to a project that does not exist
     Given a todo titled "<todo>" exists

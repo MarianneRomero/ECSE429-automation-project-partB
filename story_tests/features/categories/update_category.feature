@@ -55,6 +55,8 @@ Feature: Update a category
       | amend     | title       |          | Failed Validation: title : can not be empty |
       | amend     | colour      | red      | Could not find field: colour                |
 
+  # BUG-08: amend (POST) and replace (PUT) give different "not found" messages for the same missing id;
+  # the PUT message ("Invalid GUID") wrongly suggests the id format is invalid.
   @error
   Scenario Outline: Update a category that does not exist
     When I <operation> the category with id "<id>" with the fields

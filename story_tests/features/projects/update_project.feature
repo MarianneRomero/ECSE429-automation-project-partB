@@ -8,6 +8,7 @@ Feature: Update a project
       | title          | description | active | completed |
       | ECSE429 Part B | Story tests | true   | false     |
 
+  # BUG-09: active and completed are sent as booleans but come back as the strings "true" / "false".
   @normal
   Scenario Outline: Amend a single field of a project and keep the other fields
     When I amend the project "ECSE429 Part B" with the fields
@@ -23,6 +24,8 @@ Feature: Update a project
       | completed   | true              |
       | active      | false             |
 
+  # BUG-04: PUT /projects/:id is documented as "amend", but it replaces the project:
+  # every field left out of the body goes back to its default value.
   @alternate
   Scenario Outline: Replace a project and reset the fields that were left out
     When I replace the project "ECSE429 Part B" with the fields

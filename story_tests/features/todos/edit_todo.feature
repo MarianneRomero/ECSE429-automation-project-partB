@@ -24,7 +24,7 @@ Feature: Edit a todo
       | Final report | Ready to submit       |
       | Draft report | Second draft, revised |
 
-  # PUT /todos/:id is documented as "amend", but it replaces the todo:
+  # BUG-04: PUT /todos/:id is documented as "amend", but it replaces the todo:
   # every field left out of the body goes back to its default value.
   @alternate
   Scenario Outline: Replace a todo and reset the fields that were left out
@@ -40,6 +40,7 @@ Feature: Edit a todo
       | Draft report  |
       | Outline ideas |
 
+  # BUG-04: a replace without a title is rejected even though PUT is documented as "amend".
   @error
   Scenario Outline: Edit a todo with invalid data
     When I <operation> the todo "Draft report" with the fields

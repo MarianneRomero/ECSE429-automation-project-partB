@@ -11,6 +11,7 @@ Feature: View todos
       | Submit assignment | Upload to myCourses | true       |
       | Study for quiz    | Chapters 1 to 3     | false      |
 
+  # BUG-05: GET /todos/:id returns the todo inside a one-element "todos" list, not a bare todo.
   @normal
   Scenario Outline: Fetch a todo by its id
     When I fetch the todo "<title>"
@@ -38,6 +39,7 @@ Feature: View todos
       | doneStatus | false             | Study for quiz    | Submit assignment |
       | title      | Read chapter 4    | Read chapter 4    | Study for quiz    |
 
+  # BUG-08: GET gives a different "not found" message than POST, PUT and DELETE.
   @error
   Scenario Outline: Fetch a todo that does not exist
     When I fetch the todo with id "<id>"

@@ -53,6 +53,7 @@ Feature: Delete a todo
       | Old reminder  |
       | Cancelled lab |
 
+  # BUG-08: DELETE gives a different "not found" message than GET, POST and PUT.
   @error
   Scenario Outline: Delete a todo with an id that does not exist
     When I delete the todo with id "<id>"

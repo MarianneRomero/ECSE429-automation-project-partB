@@ -8,6 +8,7 @@ Feature: Create a todo
     And no todo titled "Lab report" exists
     And no todo titled "Buy groceries" exists
 
+  # BUG-09: doneStatus is sent as a boolean but comes back as the string "true" / "false".
   @normal
   Scenario Outline: Create a todo with a title, a description and a done status
     When I create a todo with the fields

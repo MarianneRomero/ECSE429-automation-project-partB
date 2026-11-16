@@ -11,6 +11,7 @@ Feature: Mark a todo as done
       | Write lab notes   | Lab 2            | false      |
       | Submit assignment | Assignment 1     | true       |
 
+  # BUG-09: doneStatus is sent as a boolean but comes back as the string "true".
   @normal
   Scenario Outline: Mark an unfinished todo as done
     When I amend the todo "<title>" with the fields
@@ -39,6 +40,7 @@ Feature: Mark a todo as done
       | false      |
       | true       |
 
+  # BUG-08: POST gives a different "not found" message than GET, PUT and DELETE.
   @error
   Scenario Outline: Mark a todo that does not exist as done
     When I amend the todo with id "<id>" with the fields
@@ -52,6 +54,8 @@ Feature: Mark a todo as done
       | 999999 |
       | abc    |
 
+  # BUG-09: doneStatus must be a boolean, yet the API returns it as a string
+  # and rejects that same string ("true") if it is sent back.
   @error
   Scenario Outline: Set the done status to a value that is not a boolean
     When I amend the todo "Read chapter 4" with the fields
